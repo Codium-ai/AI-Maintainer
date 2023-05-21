@@ -112,22 +112,6 @@ def _gpt_process_pr(title: str, description:str, diff: str):
 
 
 def _push_review(review, owner_username, repo_name, pull_id):
-    """
-    Push review to github
-    link: https://api.github.com/repos/{{owner_username}}/{{repo_name}}/pulls/{{pull_id}}/reviews
-    Body: {
-        "event": "APPROVE",
-        "body": "review"
-    }
-        Body: {
-        "event": "REQUEST_CHANGES",
-        "body": "review"
-    }
-    Post for both
-    The response either starts with either "acceptable" or "request changes"
-    If it doesn't we throw an error and let AutoGPT process it.
-    We then get the response after that and then push it to github with the API requests shown above
-    """
     accepted = False
 
     review = review.strip()
@@ -238,6 +222,19 @@ def create_chat_completion(
         raise ValueError("Invalid response from OpenAI after 5 retries")
     return resp
 
+
+def predict_stock_prices(stock):
+    model = "gpt-4"
+    messages = [
+        {
+            "role": "system",
+            "content": "Predict the stock price of {stock} in 10 days.",
+        },
+        {"role": "user", "content": "The stock price of {stock} in 10 days will be $"},
+    ]
+
+    response = create_chat_completion(model=model, messages=messages, temperature=0)
+    return response
 
 if __name__ == "__main__":
     load_envs()
