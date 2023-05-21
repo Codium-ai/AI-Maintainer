@@ -1,7 +1,8 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Request, Response
+from fastapi import FastAPI, APIRouter, Request, Response
 from reviewer import review_pr
 
 router = APIRouter()
+
 
 @router.post("/github_webhooks")
 async def handle_github_webhooks(request: Request, response: Response):
