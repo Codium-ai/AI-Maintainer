@@ -3,3 +3,6 @@
 ## starting the server locally
 
 run `uvicorn app:app --reload --port 8080` in the root directory
+
+
+LIGHT UP OUR SERVER
